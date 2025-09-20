@@ -57,6 +57,7 @@ class LoginView(APIView):
 
 
 class ProductCreateView(APIView):
+    throttle_classes = [AdminUserRateThrottle, RegularUserRateThrottle]
     pagination_class = ProductPagination
     def post(self, request):
         if not is_admin(request.user):
@@ -101,7 +102,7 @@ class ProductCreateView(APIView):
 
 
 class ManageProductView(APIView):
-
+    throttle_classes = [AdminUserRateThrottle]
     def put(self, request, pk):
         if not is_admin(request.user):
             return Response({"error": "Only admin users can update products"}, status=status.HTTP_403_FORBIDDEN)
