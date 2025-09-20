@@ -84,6 +84,16 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'core.throttles.AdminUserRateThrottle',
+        'core.throttles.RegularUserRateThrottle',
+        'core.throttles.AnonymousRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'admin_user': '50/hour', 
+        'regular_user': '20/hour',
+        'anon_user': '5/hour',
+    },
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),

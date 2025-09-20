@@ -8,9 +8,11 @@ from .permissions import is_admin
 from .serializers import RegisterSerializer, LoginSerializer, ProductSerializer
 from .models import Product
 from .pagination import ProductPagination
+from .throttles import AdminUserRateThrottle, RegularUserRateThrottle, AnonymousRateThrottle
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [AnonymousRateThrottle]
 
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
@@ -33,6 +35,8 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [AnonymousRateThrottle]
+
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
